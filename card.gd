@@ -1,3 +1,4 @@
+class_name Card
 extends Area3D
 
 func _on_input_event(camera, event, event_position, normal, shape_idx):

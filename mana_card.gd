@@ -1,4 +1,4 @@
-extends "card.gd"
+extends Card
 
 @export
 var mana_tracker : Label3D;
