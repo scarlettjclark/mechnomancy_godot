@@ -1,17 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3ofssdkbsd0n"]
+[gd_scene load_steps=10 format=3 uid="uid://c3ofssdkbsd0n"]
 
-[ext_resource type="Script" path="res://mana_card.gd" id="1_3dkdq"]
-[ext_resource type="Script" path="res://slug.gd" id="2_kawov"]
+[ext_resource type="PackedScene" uid="uid://501abwm14won" path="res://mana_card.tscn" id="1_hparh"]
+[ext_resource type="PackedScene" uid="uid://c7addscb6swu2" path="res://slug.tscn" id="2_is0ua"]
 [ext_resource type="Script" path="res://enemy.gd" id="3_4httm"]
+[ext_resource type="Script" path="res://end_turn_button.gd" id="3_217mh"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_if4a0"]
-points = PackedVector3Array(-0.112, 0.175, 0, -0.112, -0.175, 0, 0.113, -0.175, 0, 0.113, 0.175, 0)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kq61x"]
+points = PackedVector3Array(0.4, 0.1, 0, 0.4, -0.1, 0, -0.4, 0.1, 0, -0.4, -0.1, 0)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_miv1a"]
-size = Vector2(0.225, 0.35)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jmbtv"]
+albedo_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oby64"]
-albedo_color = Color(1, 0, 0, 1)
+[sub_resource type="TextMesh" id="TextMesh_i8jbr"]
+material = SubResource("StandardMaterial3D_jmbtv")
+text = "End Turn"
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jm8ij"]
 height = 0.5
@@ -37,32 +39,35 @@ text = "0"
 [node name="Hand" type="Node3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
 
-[node name="Mana Card" type="Area3D" parent="Player/Hand" node_paths=PackedStringArray("mana_tracker")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.361646, 0)
-script = ExtResource("1_3dkdq")
-mana_tracker = NodePath("../../Mana")
+[node name="Mana Card" parent="Player/Hand" instance=ExtResource("1_hparh")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Hand/Mana Card"]
-shape = SubResource("ConvexPolygonShape3D_if4a0")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Hand/Mana Card"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("PlaneMesh_miv1a")
-
-[node name="Slug" type="Area3D" parent="Player/Hand" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.293196, -0.361646, 0)
-script = ExtResource("2_kawov")
+[node name="Slug" parent="Player/Hand" node_paths=PackedStringArray("target") instance=ExtResource("2_is0ua")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.577881, -0.361646, 0)
 target = NodePath("../../../Enemy")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Hand/Slug"]
-shape = SubResource("ConvexPolygonShape3D_if4a0")
+[node name="Mana Card2" parent="Player/Hand" instance=ExtResource("1_hparh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.294451, -0.361646, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Hand/Slug"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_oby64")
-mesh = SubResource("PlaneMesh_miv1a")
+[node name="Slug2" parent="Player/Hand" node_paths=PackedStringArray("target") instance=ExtResource("2_is0ua")]
+target = NodePath("../../../Enemy")
+
+[node name="Mana Card3" parent="Player/Hand" instance=ExtResource("1_hparh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.574408, -0.361646, 0)
+
+[node name="EndTurnButton" type="Area3D" parent="Player"]
+transform = Transform3D(0.756436, 0, 0.654068, 0, 1, 0, -0.654068, 0, 0.756436, -0.982542, -0.19864, -0.152541)
+script = ExtResource("3_217mh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/EndTurnButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0189636, 0)
+shape = SubResource("ConvexPolygonShape3D_kq61x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/EndTurnButton"]
+mesh = SubResource("TextMesh_i8jbr")
+skeleton = NodePath("../CollisionShape3D")
 
 [node name="Enemy" type="CharacterBody3D" parent="." node_paths=PackedStringArray("health_tracker")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.597124)
 script = ExtResource("3_4httm")
 health_tracker = NodePath("Health")
 
@@ -77,5 +82,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.423889, 0)
 pixel_size = 0.003
 text = "5"
 
-[connection signal="input_event" from="Player/Hand/Mana Card" to="Player/Hand/Mana Card" method="_on_input_event"]
-[connection signal="input_event" from="Player/Hand/Slug" to="Player/Hand/Slug" method="_on_input_event"]
+[connection signal="input_event" from="Player/EndTurnButton" to="Player/EndTurnButton" method="_on_input_event"]
