@@ -11,10 +11,8 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="PlaneMesh" id="PlaneMesh_miv1a"]
 size = Vector2(0.225, 0.35)
 
-[node name="Slug" type="Area3D" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.293196, -0.361646, 0)
+[node name="Slug" type="Area3D"]
 script = ExtResource("1_4u26g")
-target = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_if4a0")

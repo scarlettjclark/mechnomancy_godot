@@ -8,10 +8,8 @@ points = PackedVector3Array(-0.112, 0.175, 0, -0.112, -0.175, 0, 0.113, -0.175, 
 [sub_resource type="PlaneMesh" id="PlaneMesh_miv1a"]
 size = Vector2(0.225, 0.35)
 
-[node name="Mana Card" type="Area3D" node_paths=PackedStringArray("mana_tracker")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.361646, 0)
+[node name="Mana Card" type="Area3D"]
 script = ExtResource("1_25ssf")
-mana_tracker = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_if4a0")
