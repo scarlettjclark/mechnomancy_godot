@@ -1,18 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3ofssdkbsd0n"]
+[gd_scene load_steps=12 format=3 uid="uid://c3ofssdkbsd0n"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_20u3l"]
 [ext_resource type="Script" path="res://player.gd" id="2_lro0p"]
 [ext_resource type="Script" path="res://enemy.gd" id="3_4httm"]
 [ext_resource type="Script" path="res://end_turn_button.gd" id="3_217mh"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_jm8ij"]
-height = 0.5
-radius = 0.25
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_kuece"]
-top_radius = 0.25
-bottom_radius = 0.25
-height = 0.5
+[ext_resource type="Script" path="res://hand.gd" id="4_re6ae"]
+[ext_resource type="Script" path="res://deck.gd" id="4_s8kbb"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kq61x"]
 points = PackedVector3Array(0.4, 0.1, 0, 0.4, -0.1, 0, -0.4, 0.1, 0, -0.4, -0.1, 0)
@@ -23,6 +16,15 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="TextMesh" id="TextMesh_i8jbr"]
 material = SubResource("StandardMaterial3D_jmbtv")
 text = "End Turn"
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jm8ij"]
+height = 0.5
+radius = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kuece"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.5
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_20u3l")
@@ -38,8 +40,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30813, 0.712797, 0)
 pixel_size = 0.002
 text = "0"
 
-[node name="Hand" type="Node3D" parent="."]
+[node name="EndTurnButton" type="Area3D" parent="Player"]
+transform = Transform3D(0.756436, 0, 0.654068, 0, 1, 0, -0.654068, 0, 0.756436, -0.982542, -0.19864, -0.152541)
+script = ExtResource("3_217mh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/EndTurnButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0189636, 0)
+shape = SubResource("ConvexPolygonShape3D_kq61x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/EndTurnButton"]
+mesh = SubResource("TextMesh_i8jbr")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Hand" type="Node3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.587704, 0)
+script = ExtResource("4_re6ae")
+
+[node name="Discard" type="Node3D" parent="Player"]
+
+[node name="Deck" type="Node3D" parent="Player"]
+script = ExtResource("4_s8kbb")
 
 [node name="Enemy" type="CharacterBody3D" parent="." node_paths=PackedStringArray("health_tracker")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.597124)
@@ -57,16 +77,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.423889, 0)
 pixel_size = 0.003
 text = "5"
 
-[node name="EndTurnButton" type="Area3D" parent="."]
-transform = Transform3D(0.756436, 0, 0.654068, 0, 1, 0, -0.654068, 0, 0.756436, -0.982542, -0.19864, -0.152541)
-script = ExtResource("3_217mh")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="EndTurnButton"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0189636, 0)
-shape = SubResource("ConvexPolygonShape3D_kq61x")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="EndTurnButton"]
-mesh = SubResource("TextMesh_i8jbr")
-skeleton = NodePath("../CollisionShape3D")
-
-[connection signal="input_event" from="EndTurnButton" to="EndTurnButton" method="_on_input_event"]
+[connection signal="input_event" from="Player/EndTurnButton" to="Player/EndTurnButton" method="_on_input_event"]
