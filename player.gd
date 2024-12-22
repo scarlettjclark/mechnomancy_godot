@@ -34,8 +34,15 @@ func update_text():
 	mana_tracker.text = str(mana_stat)
 
 func draw():
+	if deck.get_child_count() == 0:
+		while discard.get_child_count() != 0:
+			var card_index = randi_range(0, discard.get_child_count() - 1)
+			var card = discard.get_child(card_index)
+			discard.remove_child(card)
+			deck.add_child(card)
 	if deck.get_child_count() != 0:
 		var card = deck.get_child(0)
 		deck.remove_child(card)
 		hand.add_child(card)
 		card.show()
+		
