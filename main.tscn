@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3ofssdkbsd0n"]
+[gd_scene load_steps=15 format=3 uid="uid://c3ofssdkbsd0n"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_20u3l"]
 [ext_resource type="Script" path="res://player.gd" id="2_lro0p"]
@@ -25,6 +25,15 @@ radius = 0.25
 top_radius = 0.25
 bottom_radius = 0.25
 height = 0.5
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_n3e1s"]
+points = PackedVector3Array(-0.175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1sx03"]
+albedo_color = Color(1, 0.0431373, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_yhid2"]
+size = Vector2(0.35, 0.1)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_20u3l")
@@ -76,5 +85,18 @@ mesh = SubResource("CylinderMesh_kuece")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.423889, 0)
 pixel_size = 0.003
 text = "5"
+
+[node name="Store" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.734521, 0)
+
+[node name="Infuse" type="Area3D" parent="Store"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Store/Infuse"]
+shape = SubResource("ConvexPolygonShape3D_n3e1s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Store/Infuse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0543559, 0)
+material_override = SubResource("StandardMaterial3D_1sx03")
+mesh = SubResource("QuadMesh_yhid2")
 
 [connection signal="input_event" from="Player/EndTurnButton" to="Player/EndTurnButton" method="_on_input_event"]
